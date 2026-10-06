@@ -1,92 +1,97 @@
-# Obsidian Sample Plugin
+# PDF Dictionary & Translator for Obsidian
 
-This is a sample plugin for Obsidian (https://obsidian.md).
+A powerful, elegant, cross-platform reader companion for [Obsidian](https://obsidian.md). Look up words across multiple authoritative dictionaries (Cambridge Learner's, Oxford Learner's, Dictionary.com) and translate selections in real-time with an intuitive, non-intrusive floating toolbar on desktop and mobile.
 
-This project uses TypeScript to provide type checking and documentation.
-The repo depends on the latest plugin API (obsidian.d.ts) in TypeScript Definition format, which contains TSDoc comments describing what it does.
+![Obsidian Version](https://img.shields.io/badge/Obsidian-v1.0.0+-purple.svg)
+![Platforms](https://img.shields.io/badge/Platform-Desktop%20%7C%20Android%20%7C%20iOS-blue.svg)
+![License](https://img.shields.io/badge/License-MIT-green.svg)
 
-This sample plugin demonstrates some of the basic functionality the plugin API can do.
+---
 
-- Adds a ribbon icon, which shows a Notice when clicked.
-- Adds a command "Open modal (simple)" which opens a Modal.
-- Adds a plugin setting tab to the settings page.
-- Registers a global click event and outputs a Notice on click.
-- Registers a global interval which logs 'setInterval' to the console.
+## ✨ Features
 
-## First time developing plugins?
+- **📖 Multiple Authoritative Dictionaries**
+  - **Cambridge Learner's Dictionary**: Learner-friendly definitions, UK/US IPA phonetics, and authentic native audio clips.
+  - **Oxford Learner's Dictionaries**: Rigorous definitions, CEFR language levels, UK/US phonetics, and pronunciations.
+  - **Dictionary.com**: Rich American English definitions, syllabification, and audio pronunciations.
 
-Quick starting guide for new plugin devs:
+- **🌐 Intelligent Multi-Engine Translation**
+  - **Cambridge English–Indonesian**: Curated bilingual entries with parts of speech, English explanations, and contextual translated examples.
+  - **Web Translator (MyMemory)**: High-speed translation for idioms, phrases, and entire paragraphs.
+  - **DeepL API**: Optional integration for professional-grade neural translation (Free and Pro API keys supported).
 
-- Check if [someone already developed a plugin for what you want](https://obsidian.md/plugins)! There might be an existing plugin similar enough that you can partner up with.
-- Make a copy of this repo as a template with the "Use this template" button (login to GitHub if you don't see it).
-- Clone your repo to a local development folder. For convenience, you can place this folder in your `.obsidian/plugins/your-plugin-name` folder.
-- Install NodeJS, then run `npm i` in the command line under your repo folder.
-- Run `npm run dev` to compile your plugin from `src/main.ts` to `main.js`.
-- Make changes to `src/main.ts` (or create new `.ts` files). Those changes should be automatically compiled into `main.js`.
-- Reload Obsidian to load the new version of your plugin.
-- Enable plugin in settings window.
-- For updates to the Obsidian API run `npm update` in the command line under your repo folder.
+- **📱 Designed for Both Desktop and Mobile (Android & iOS)**
+  - **Desktop**: A sleek, glassmorphic pill toolbar hovers directly above your text selection.
+  - **Mobile (Android & iOS)**: Automatically docks into a thumb-friendly **Floating Bottom Dock**, completely eliminating collisions with Android's native text selection popups (`Copy` / `Share` / `Select all`). Tapping opens a modern slide-up **Bottom Sheet**.
 
-## Releasing new releases
+- **🔍 Interactive Search Bar**
+  - Built-in editable search bar at the top of the card. If you ever select an incomplete word in a PDF or want to look up a different word, simply edit it in the bar and tap **Search** without re-selecting text.
 
-- Update your `manifest.json` with your new version number, such as `1.0.1`, and the minimum Obsidian version required for your latest release.
-- Update your `versions.json` file with `"new-plugin-version": "minimum-obsidian-version"` so older versions of Obsidian can download an older version of your plugin that's compatible.
-- Create new GitHub release using your new version number as the "Tag version". Use the exact version number, don't include a prefix `v`. See here for an example: https://github.com/obsidianmd/obsidian-sample-plugin/releases
-- Upload the files `manifest.json`, `main.js`, `styles.css` as binary attachments. Note: The manifest.json file must be in two places, first the root path of your repository and also in the release.
-- Publish the release.
+- **🔊 Audio Pronunciations**
+  - Instant playback for UK and US pronunciations with interactive audio buttons.
 
-> You can simplify the version bump process by running `npm version patch`, `npm version minor` or `npm version major` after updating `minAppVersion` manually in `manifest.json`.
-> The command will bump version in `manifest.json` and `package.json`, and add the entry for the new version to `versions.json`
+- **📝 One-Click Vocabulary Note Export**
+  - Save looked-up words, definitions, phonetics, and example sentences directly into your `Vocabulary.md` note with a single click.
 
-## Adding your plugin to the community plugin list
+- **📄 Universal PDF & Markdown Support**
+  - Works seamlessly with Obsidian's native PDF reader, PDF++ plugin, and standard Markdown notes.
 
-- Check the [plugin guidelines](https://docs.obsidian.md/Plugins/Releasing/Plugin+guidelines).
-- Publish an initial version.
-- Make sure you have a `README.md` file in the root of your repo.
-- Make a pull request at https://github.com/obsidianmd/obsidian-releases to add your plugin.
+---
 
-## How to use
+## 🚀 Installation
 
-- Clone this repo.
-- Make sure your NodeJS is at least v18 (`node --version`).
-- `npm i` to install dependencies.
-- `npm run dev` to start compilation in watch mode.
+### Via Obsidian Community Plugins (Recommended once listed)
+1. In Obsidian, open **Settings** → **Community plugins**.
+2. Turn off **Restricted mode**.
+3. Click **Browse** and search for `PDF Dictionary & Translator`.
+4. Click **Install**, then **Enable**.
 
-## Manually installing the plugin
+### Manual Installation
+1. Download the latest release (`pdf-dictionary-translator.zip` or `main.js`, `manifest.json`, `styles.css`) from the [Releases](https://github.com/quiqxiq/obsidian-pdf-dict-translator/releases) page.
+2. Extract the files into your vault's plugin directory:
+   `<YourVault>/.obsidian/plugins/pdf-dictionary-translator/`
+3. Reload Obsidian or toggle the plugin in **Settings** → **Community plugins**.
 
-- Copy over `main.js`, `styles.css`, `manifest.json` to your vault `VaultFolder/.obsidian/plugins/your-plugin-id/`.
+---
 
-## Improve code quality with eslint
+## ⚙️ Configuration
 
-- [ESLint](https://eslint.org/) is a tool that analyzes your code to quickly find problems. You can run ESLint against your plugin to find common bugs and ways to improve your code.
-- This project already has eslint preconfigured, you can invoke a check by running`npm run lint`
-- Together with a custom eslint [plugin](https://github.com/obsidianmd/eslint-plugin) for Obsidan specific code guidelines.
-- A GitHub action is preconfigured to automatically lint every commit on all branches.
+In **Settings** → **PDF Dictionary & Translator**, you can customize:
 
-## Funding URL
+| Setting | Description | Default |
+| :--- | :--- | :--- |
+| **Dictionary provider** | Choose between Cambridge Learner's, Oxford Learner's, or Dictionary.com | `Cambridge Learner's` |
+| **Translation provider** | Choose between Cambridge English–Indonesian, Web Translator, or DeepL | `Cambridge English–Indonesian` |
+| **DeepL API key** | Authentication key for DeepL API (if selected) | Empty |
+| **Target language** | Language code for translation | `id` (Indonesian) |
+| **Source language** | Language code of the original text | `en` (English) |
+| **Auto-show toolbar** | Show the floating toolbar automatically on text selection | `Enabled` |
+| **Enable in Markdown** | Also trigger the toolbar when selecting text in Markdown notes | `Enabled` |
+| **Vocabulary note name** | File name for exported words | `Vocabulary.md` |
 
-You can include funding URLs where people who use your plugin can financially support it.
+---
 
-The simple way is to set the `fundingUrl` field to your link in your `manifest.json` file:
+## 🛠️ Development & Building
 
-```json
-{
-	"fundingUrl": "https://buymeacoffee.com"
-}
+To build the plugin from source:
+
+```bash
+# Clone the repository
+git clone https://github.com/quiqxiq/obsidian-pdf-dict-translator.git
+cd obsidian-pdf-dict-translator
+
+# Install dependencies
+npm install
+
+# Start development build with auto-reload
+npm run dev
+
+# Build for production
+npm run build
 ```
 
-If you have multiple URLs, you can also do:
+---
 
-```json
-{
-	"fundingUrl": {
-		"Buy Me a Coffee": "https://buymeacoffee.com",
-		"GitHub Sponsor": "https://github.com/sponsors",
-		"Patreon": "https://www.patreon.com/"
-	}
-}
-```
+## 📄 License
 
-## API Documentation
-
-See https://docs.obsidian.md
+This project is licensed under the [MIT License](LICENSE).

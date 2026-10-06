@@ -1,11 +1,11 @@
 {
-	"id": "sample-plugin",
-	"name": "Sample Plugin",
+	"id": "pdf-dictionary-translator",
+	"name": "PDF Dictionary & Translator",
 	"version": "1.0.0",
 	"minAppVersion": "1.0.0",
-	"description": "Demonstrates some of the capabilities of the Obsidian API.",
-	"author": "Obsidian",
-	"authorUrl": "https://obsidian.md",
-	"fundingUrl": "https://obsidian.md/pricing",
+	"description": "Look up words in Cambridge, Oxford, or Dictionary.com and translate text with a sleek floating toolbar on desktop and mobile.",
+	"author": "quiqxiq",
+	"authorUrl": "https://github.com/quiqxiq",
+	"fundingUrl": "",
 	"isDesktopOnly": false
 }

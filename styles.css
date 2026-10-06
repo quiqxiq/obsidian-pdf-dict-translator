@@ -1,8 +1,689 @@
-/*
+/* ==========================================================================
+   PDF Dictionary & Translator - Modern Cross-Platform Theme
+   ========================================================================== */
 
-This CSS file will be included with your plugin, and
-available in the app when your plugin is enabled.
+/* --------------------------------------------------------------------------
+   1. Floating Selection Toolbar (Pill Style)
+   -------------------------------------------------------------------------- */
+.pdf-dict-floating-toolbar {
+	position: fixed !important;
+	top: 0;
+	left: 0;
+	display: inline-flex;
+	align-items: center;
+	gap: 2px;
+	padding: 4px 6px;
+	background: var(--background-primary);
+	border: 1px solid var(--background-modifier-border);
+	border-radius: 9999px;
+	box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 4px 10px -2px rgba(0, 0, 0, 0.15);
+	backdrop-filter: blur(16px);
+	-webkit-backdrop-filter: blur(16px);
+	user-select: none;
+	z-index: 9998;
+	opacity: 0;
+	pointer-events: none;
+	transition: opacity 0.12s ease;
+}
 
-If your plugin does not need CSS, delete this file.
+.pdf-dict-floating-toolbar.is-positioned {
+	opacity: 1;
+	pointer-events: auto;
+	animation: pillPop 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+}
 
-*/
+.pdf-dict-toolbar-pill-btn {
+	background: transparent;
+	color: var(--text-normal);
+	border: none;
+	border-radius: 9999px;
+	padding: 5px 12px;
+	font-size: 12px;
+	font-weight: 600;
+	cursor: pointer;
+	display: inline-flex;
+	align-items: center;
+	gap: 5px;
+	transition: all 0.15s ease;
+	line-height: 1.2;
+}
+
+.pdf-dict-toolbar-pill-btn:hover {
+	background: var(--background-modifier-hover);
+	color: var(--text-accent);
+}
+
+.pdf-dict-toolbar-pill-btn:active {
+	transform: scale(0.95);
+}
+
+.pdf-dict-toolbar-divider {
+	width: 1px;
+	height: 14px;
+	background: var(--background-modifier-border);
+	margin: 0 2px;
+}
+
+/* Mobile Toolbar: Docked at bottom screen to avoid Android native ActionMode popup */
+.pdf-dict-floating-toolbar.is-mobile-bottom-dock {
+	position: fixed !important;
+	bottom: calc(20px + env(safe-area-inset-bottom, 0px)) !important;
+	left: 50% !important;
+	top: auto !important;
+	transform: translateX(-50%) !important;
+	padding: 8px 14px;
+	box-shadow: 0 12px 36px rgba(0, 0, 0, 0.4), 0 0 1px 1px var(--background-modifier-border);
+	animation: slideUpDock 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+	z-index: 9998;
+}
+
+.pdf-dict-floating-toolbar.is-mobile-bottom-dock .pdf-dict-toolbar-pill-btn {
+	padding: 8px 14px;
+	font-size: 13.5px;
+	font-weight: 600;
+}
+
+.pdf-dict-toolbar-word-preview {
+	font-size: 11px;
+	font-weight: 700;
+	color: var(--text-accent);
+	background: var(--background-secondary-alt);
+	border: 1px solid var(--background-modifier-border);
+	padding: 4px 10px;
+	border-radius: 9999px;
+	max-width: 120px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	margin-right: 4px;
+}
+
+@keyframes slideUpDock {
+	from {
+		opacity: 0;
+		transform: translateX(-50%) translateY(20px);
+	}
+	to {
+		opacity: 1;
+		transform: translateX(-50%) translateY(0);
+	}
+}
+
+/* --------------------------------------------------------------------------
+   2. Mobile Backdrop
+   -------------------------------------------------------------------------- */
+.pdf-dict-backdrop {
+	position: fixed;
+	inset: 0;
+	background: rgba(0, 0, 0, 0.45);
+	backdrop-filter: blur(3px);
+	-webkit-backdrop-filter: blur(3px);
+	z-index: 9990;
+	animation: fadeIn 0.2s ease-out;
+}
+
+/* --------------------------------------------------------------------------
+   3. Modal Card (Desktop Popover & Mobile Bottom Sheet)
+   -------------------------------------------------------------------------- */
+.pdf-dict-modal {
+	background: var(--background-primary);
+	color: var(--text-normal);
+	border: 1px solid var(--background-modifier-border);
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+	font-family: var(--font-text);
+	z-index: 9999;
+}
+
+/* Desktop Floating Card */
+.pdf-dict-modal.is-desktop-card {
+	position: fixed !important;
+	top: 0;
+	left: 0;
+	width: 400px;
+	max-width: 92vw;
+	max-height: 520px;
+	border-radius: 14px;
+	box-shadow: 0 20px 40px -8px rgba(0, 0, 0, 0.35), 0 0 1px 1px var(--background-modifier-border);
+	opacity: 0;
+	pointer-events: none;
+	transition: opacity 0.15s ease;
+}
+
+.pdf-dict-modal.is-desktop-card.is-positioned {
+	opacity: 1;
+	pointer-events: auto;
+	animation: popIn 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Mobile Bottom Sheet */
+.pdf-dict-modal.is-mobile-sheet {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	width: 100%;
+	max-height: 78vh;
+	border-radius: 20px 20px 0 0;
+	border-bottom: none;
+	box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.35);
+	padding-bottom: env(safe-area-inset-bottom, 16px);
+	animation: slideUpSheet 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.pdf-dict-sheet-handle {
+	width: 40px;
+	height: 5px;
+	border-radius: 3px;
+	background: var(--text-faint);
+	margin: 10px auto 4px auto;
+	cursor: grab;
+	opacity: 0.7;
+}
+
+/* --------------------------------------------------------------------------
+   3b. Editable Query / Search Bar Row
+   -------------------------------------------------------------------------- */
+.pdf-dict-search-row {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 10px 14px 4px 14px;
+	background: var(--background-secondary);
+}
+
+.pdf-dict-search-box {
+	flex: 1;
+	display: flex;
+	align-items: center;
+	background: var(--background-modifier-form-field);
+	border: 1px solid var(--background-modifier-border);
+	border-radius: 8px;
+	padding: 4px 8px;
+	gap: 6px;
+	transition: border-color 0.15s ease;
+}
+
+.pdf-dict-search-box:focus-within {
+	border-color: var(--interactive-accent);
+}
+
+.pdf-dict-search-icon-btn {
+	background: transparent;
+	border: none;
+	font-size: 14px;
+	cursor: pointer;
+	padding: 2px 4px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	opacity: 0.75;
+	border-radius: 4px;
+	transition: transform 0.1s ease, opacity 0.1s ease, background 0.1s ease;
+}
+.pdf-dict-search-icon-btn:hover {
+	opacity: 1;
+	transform: scale(1.15);
+	background: var(--background-modifier-hover);
+}
+.pdf-dict-search-icon-btn:active {
+	transform: scale(0.95);
+}
+
+.pdf-dict-search-input::-webkit-search-cancel-button {
+	display: none;
+}
+
+.pdf-dict-search-input {
+	flex: 1;
+	background: transparent;
+	border: none;
+	outline: none;
+	font-size: 13.5px;
+	font-weight: 600;
+	color: var(--text-normal);
+	padding: 0;
+	min-width: 0;
+}
+
+.pdf-dict-search-clear-btn {
+	background: transparent;
+	border: none;
+	color: var(--text-muted);
+	font-size: 11px;
+	cursor: pointer;
+	padding: 2px 4px;
+	border-radius: 4px;
+}
+.pdf-dict-search-clear-btn:hover {
+	color: var(--text-normal);
+	background: var(--background-modifier-hover);
+}
+
+.pdf-dict-search-submit-btn {
+	background: var(--interactive-accent);
+	color: var(--text-on-accent);
+	border: none;
+	border-radius: 8px;
+	padding: 6px 12px;
+	font-size: 12px;
+	font-weight: 600;
+	cursor: pointer;
+	white-space: nowrap;
+	transition: filter 0.15s ease;
+}
+.pdf-dict-search-submit-btn:hover {
+	filter: brightness(1.1);
+}
+
+.pdf-dict-state-hint {
+	font-size: 12px;
+	color: var(--text-accent);
+	font-style: italic;
+	margin-top: 6px;
+	opacity: 0.85;
+}
+
+/* --------------------------------------------------------------------------
+   4. Navigation & Segmented Tabs
+   -------------------------------------------------------------------------- */
+.pdf-dict-navbar {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 10px 14px;
+	background: var(--background-secondary);
+	border-bottom: 1px solid var(--background-modifier-border);
+	gap: 10px;
+}
+
+.pdf-dict-tabs-group {
+	display: inline-flex;
+	background: var(--background-modifier-form-field);
+	padding: 3px;
+	border-radius: 9999px;
+	border: 1px solid var(--background-modifier-border);
+}
+
+.pdf-dict-tab {
+	background: transparent;
+	border: none;
+	color: var(--text-muted);
+	padding: 5px 12px;
+	font-size: 12px;
+	font-weight: 600;
+	border-radius: 9999px;
+	cursor: pointer;
+	transition: all 0.15s ease;
+	white-space: nowrap;
+}
+
+.pdf-dict-tab:hover {
+	color: var(--text-normal);
+}
+
+.pdf-dict-tab.is-active {
+	background: var(--interactive-accent);
+	color: var(--text-on-accent);
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.pdf-dict-close-btn {
+	background: var(--background-modifier-hover);
+	border: none;
+	color: var(--text-muted);
+	font-size: 13px;
+	cursor: pointer;
+	width: 28px;
+	height: 28px;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: all 0.15s ease;
+}
+
+.pdf-dict-close-btn:hover {
+	background: var(--background-modifier-border-hover);
+	color: var(--text-normal);
+}
+
+/* --------------------------------------------------------------------------
+   5. Content Body
+   -------------------------------------------------------------------------- */
+.pdf-dict-body {
+	padding: 14px 16px;
+	overflow-y: auto;
+	flex: 1;
+	font-size: 13.5px;
+	line-height: 1.55;
+	-webkit-overflow-scrolling: touch;
+}
+
+/* State (Loading / Empty / Error) */
+.pdf-dict-state-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 32px 16px;
+	text-align: center;
+	color: var(--text-muted);
+	gap: 10px;
+}
+
+.pdf-dict-state-icon {
+	font-size: 26px;
+}
+
+.pdf-dict-spinner {
+	width: 26px;
+	height: 26px;
+	border: 3px solid var(--background-modifier-border);
+	border-top-color: var(--interactive-accent);
+	border-radius: 50%;
+	animation: spin 0.8s linear infinite;
+}
+
+/* --------------------------------------------------------------------------
+   6. Cambridge Dictionary Entry
+   -------------------------------------------------------------------------- */
+.pdf-dict-entry-card {
+	margin-bottom: 16px;
+	padding-bottom: 14px;
+	border-bottom: 1px solid var(--background-modifier-border);
+}
+.pdf-dict-entry-card:last-child {
+	border-bottom: none;
+	margin-bottom: 0;
+	padding-bottom: 0;
+}
+
+.pdf-dict-head-row {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	margin-bottom: 6px;
+}
+
+.pdf-dict-word-title {
+	font-size: 20px;
+	font-weight: 700;
+	letter-spacing: -0.3px;
+	color: var(--text-accent);
+}
+
+.pdf-dict-pos-badge {
+	font-size: 10.5px;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+	padding: 2px 7px;
+	background: var(--interactive-accent);
+	color: var(--text-on-accent);
+	border-radius: 9999px;
+}
+
+.pdf-dict-pron-row {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	margin-bottom: 12px;
+}
+
+.pdf-dict-ipa-pill {
+	display: inline-flex;
+	align-items: center;
+	gap: 5px;
+	background: var(--background-secondary-alt);
+	border: 1px solid var(--background-modifier-border);
+	padding: 3px 8px;
+	border-radius: 6px;
+	font-size: 12px;
+	color: var(--text-muted);
+}
+
+.pdf-dict-region-tag {
+	font-weight: 700;
+	font-size: 10px;
+	color: var(--text-accent);
+}
+
+.pdf-dict-audio-btn {
+	background: transparent;
+	border: none;
+	cursor: pointer;
+	font-size: 12px;
+	padding: 1px 3px;
+	border-radius: 4px;
+	transition: transform 0.1s ease;
+}
+.pdf-dict-audio-btn:hover {
+	transform: scale(1.15);
+}
+
+.pdf-dict-definition-list {
+	margin: 0;
+	padding-left: 20px;
+}
+
+.pdf-dict-def-item {
+	margin-bottom: 10px;
+}
+
+.pdf-dict-def-text {
+	font-weight: 500;
+	color: var(--text-normal);
+}
+
+.pdf-dict-examples-box {
+	margin-top: 6px;
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+
+.pdf-dict-example-item {
+	font-size: 12.5px;
+	color: var(--text-muted);
+	font-style: italic;
+	background: var(--background-secondary-alt);
+	border-left: 3px solid var(--interactive-accent);
+	padding: 6px 10px;
+	border-radius: 0 6px 6px 0;
+}
+
+/* --------------------------------------------------------------------------
+   7. Translation Tab Layout
+   -------------------------------------------------------------------------- */
+.pdf-dict-trans-container {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.pdf-dict-bubble {
+	padding: 10px 12px;
+	border-radius: 10px;
+	background: var(--background-secondary-alt);
+	border: 1px solid var(--background-modifier-border);
+}
+
+.pdf-dict-bubble.is-source {
+	border-left: 3px solid var(--text-faint);
+}
+
+.pdf-dict-bubble.is-target {
+	border-left: 3px solid var(--interactive-accent);
+	background: var(--background-secondary);
+}
+
+.pdf-dict-bubble-label {
+	font-size: 10px;
+	font-weight: 700;
+	color: var(--text-muted);
+	letter-spacing: 0.5px;
+	margin-bottom: 4px;
+}
+
+.pdf-dict-bubble-text {
+	font-size: 13.5px;
+	color: var(--text-normal);
+}
+
+.pdf-dict-bubble-text.is-highlight {
+	font-size: 15px;
+	font-weight: 600;
+	color: var(--text-accent);
+}
+
+.pdf-dict-trans-provider-badge {
+	font-size: 11px;
+	color: var(--text-muted);
+	font-style: italic;
+	padding: 0 4px;
+}
+
+.pdf-dict-trans-arrow {
+	text-align: center;
+	color: var(--text-muted);
+	font-size: 14px;
+	font-weight: 700;
+}
+
+/* Rich Senses from Cambridge English-Indonesian */
+.pdf-dict-senses-container {
+	margin-top: 10px;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.pdf-dict-senses-title {
+	font-size: 11.5px;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+	color: var(--text-muted);
+}
+
+.pdf-dict-sense-item {
+	background: var(--background-secondary);
+	border: 1px solid var(--background-modifier-border);
+	border-radius: 8px;
+	padding: 8px 12px;
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+
+.pdf-dict-sense-title-row {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.pdf-dict-sense-meaning {
+	font-size: 14px;
+	font-weight: 700;
+	color: var(--interactive-accent);
+}
+
+.pdf-dict-sense-def {
+	font-size: 12.5px;
+	color: var(--text-normal);
+}
+
+/* --------------------------------------------------------------------------
+   8. Footer Actions
+   -------------------------------------------------------------------------- */
+.pdf-dict-footer {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	gap: 8px;
+	padding: 10px 14px;
+	background: var(--background-secondary);
+	border-top: 1px solid var(--background-modifier-border);
+}
+
+.pdf-dict-primary-btn {
+	background: var(--interactive-accent);
+	color: var(--text-on-accent);
+	border: none;
+	border-radius: 8px;
+	padding: 6px 12px;
+	font-size: 12px;
+	font-weight: 600;
+	cursor: pointer;
+	transition: filter 0.15s ease, transform 0.05s ease;
+}
+.pdf-dict-primary-btn:hover {
+	filter: brightness(1.08);
+}
+.pdf-dict-primary-btn:active {
+	transform: scale(0.97);
+}
+
+.pdf-dict-secondary-btn {
+	background: var(--interactive-normal);
+	color: var(--text-normal);
+	border: 1px solid var(--background-modifier-border);
+	border-radius: 8px;
+	padding: 6px 12px;
+	font-size: 12px;
+	font-weight: 500;
+	cursor: pointer;
+	text-decoration: none;
+	display: inline-flex;
+	align-items: center;
+	transition: background 0.15s ease;
+}
+.pdf-dict-secondary-btn:hover {
+	background: var(--interactive-hover);
+	color: var(--text-normal);
+}
+
+/* --------------------------------------------------------------------------
+   9. Animations
+   -------------------------------------------------------------------------- */
+@keyframes pillPop {
+	from {
+		opacity: 0;
+		transform: scale(0.9);
+	}
+	to {
+		opacity: 1;
+		transform: scale(1);
+	}
+}
+
+@keyframes popIn {
+	from {
+		opacity: 0;
+		transform: scale(0.96) translateY(4px);
+	}
+	to {
+		opacity: 1;
+		transform: scale(1) translateY(0);
+	}
+}
+
+@keyframes slideUpSheet {
+	from {
+		transform: translateY(100%);
+	}
+	to {
+		transform: translateY(0);
+	}
+}
+
+@keyframes fadeIn {
+	from { opacity: 0; }
+	to { opacity: 1; }
+}
+
+@keyframes spin {
+	to { transform: rotate(360deg); }
+}

@@ -1,7 +1,7 @@
 {
-	"name": "obsidian-sample-plugin",
+	"name": "obsidian-pdf-dict-translator",
 	"version": "1.0.0",
-	"description": "This is a sample plugin for Obsidian (https://obsidian.md)",
+	"description": "Look up words in Cambridge, Oxford, or Dictionary.com and translate text with a sleek floating toolbar on desktop and mobile.",
 	"main": "main.js",
 	"type": "module",
 	"scripts": {
@@ -10,8 +10,21 @@
 		"version": "node version-bump.mjs && git add manifest.json versions.json",
 		"lint": "eslint ."
 	},
-	"keywords": [],
-	"license": "0-BSD",
+	"keywords": [
+		"obsidian",
+		"obsidian-plugin",
+		"dictionary",
+		"translator",
+		"cambridge-dictionary",
+		"oxford-dictionary",
+		"pdf-reader"
+	],
+	"author": "quiqxiq",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/quiqxiq/obsidian-pdf-dict-translator.git"
+	},
 	"devDependencies": {
 		"@eslint/js": "^9.39.4",
 		"@types/node": "^22.15.17",
@@ -23,5 +36,8 @@
 		"obsidian": "latest",
 		"typescript": "^5.8.3",
 		"typescript-eslint": "^8.59.1"
+	},
+	"dependencies": {
+		"@floating-ui/dom": "^1.8.0"
 	}
 }
